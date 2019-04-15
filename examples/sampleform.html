@@ -1,0 +1,100 @@
+<html>
+
+<head>
+  <title>Testing Forms</title>
+  <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
+  <link rel='stylesheet' href='https://unpkg.com/formiojs@latest/dist/formio.full.min.css'>
+  <script src='https://unpkg.com/formiojs@latest/dist/formio.full.js'></script>
+  <script src='../dist/readonlygridformio.js'></script>
+  
+  <script type='text/javascript'>
+    window.onload = function () {
+      Formio.createForm(document.getElementById('formio'), {
+        components: [
+          {
+            label: 'Children',
+            key: 'children',
+            type: 'readonlygrid',
+            input: true,
+            components: [
+              {
+                label: "Item Id",
+                key: 'itemId',
+                type: 'textfield',
+                input: true
+              },
+              {
+                label: 'Item Name',
+                key: 'itemName',
+                type: 'textfield',
+                input: true
+              },
+              {
+                label: "Rate",
+                key: 'rate',
+                type: 'textfield',
+                input: true
+              },
+              {
+                label: "Quantity",
+                key: 'quantity',
+                type: 'textfield',
+                input: true
+              },
+              {
+                label: "Total",
+                key: 'total',
+                type: 'textfield',
+                input: true
+              },
+            
+            ]
+          },
+          {
+            type: 'button',
+            action: 'submit',
+            label: 'Submit',
+            theme: 'primary'
+          }
+
+        ]
+      }
+      ).then(function (form) {
+        // Provide a default submission.
+        form.submission = {
+          data: {
+            children: [
+              {
+                itemId:"123",
+                itemName: 'Joe',
+                rate: '10',
+                quantity: '1',
+                total: 10
+              }
+            ]
+          }
+        };
+
+        form.on('submit', function(submission) {
+          console.log(submission);
+        });
+      });
+    };
+  </script>
+</head>
+
+<body>
+  <div class="jumbotron">
+    <div class="container text-center">
+      <h1>VanillaJS <a href="https://github.com/formio/formio.js" target="_blank">Form Renderer</a></h1>
+      <p>by <a target="_blank" href="https://form.io"><img src="https://help.form.io/assets/formio-logo.png" /></a></p>
+    </div>
+  </div>
+  <div class="page-content">
+    <div class="container-fluid">
+      <div id="formio"></div>
+    </div>
+  </div>
+</body>
+
+</html>

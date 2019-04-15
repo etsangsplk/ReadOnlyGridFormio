@@ -1,0 +1,102 @@
+<html>
+
+<head>
+  <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
+  <script src="https://code.jquery.com/jquery-3.4.0.min.js"
+    integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+  <link rel='stylesheet' href='https://unpkg.com/formiojs@latest/dist/formio.full.min.css'>
+  <script src='https://unpkg.com/formiojs@latest/dist/formio.full.js'></script>
+  <script src='../dist/readonlygridformio.js'></script>
+  <script type='text/javascript'>
+    window.onload = function () {
+      var curForm = null;
+
+      Formio.builder(document.getElementById('builder'), {}, {
+        builder: {
+          basic: false,
+          advanced: false,
+          data: false,
+          layout: false,
+          customBasic: {
+            title: 'Components',
+            default: true,
+            weight: 0,
+            components: {
+              textfield: true,
+              textarea: true,
+              email: true,
+              phoneNumber: true,
+              readonlygrid: true
+            }
+          }
+        },
+        editForm: {
+          textfield: [
+            {
+              key: 'api',
+              label: "Data Binding",
+              components: [{
+                key: "tags",
+                ignore: true
+              }, {
+                key: 'key',
+                label: 'Variable Name',
+                ignore:false
+              }, {
+                key: 'properties',
+                ignore: true
+              }],
+              
+              ignore: false
+            },
+            {
+              key: 'conditional',
+              ignore: true
+            },
+            {
+              kye: 'logic',
+              ignore: true
+            }
+          ]
+        }
+      }).then(function (form) {
+        curForm = form;
+      });
+
+      var showPreview = function () {
+        Formio.createForm(document.getElementById('preview'), curForm.schema)
+          .then(function (form) {
+            form.on('submit', function (submission) {
+              console.log(submission);
+            });
+          });
+      };
+
+      $('#designBtn').click(function () {
+        $("#preview").hide();
+        $("#builder").show();
+      });
+
+      $('#previewBtn').click(function () {
+        $("#preview").show();
+        $("#builder").hide();
+        showPreview();
+      });
+
+    };
+  </script>
+</head>
+
+<body>
+  <div id="cmdContainer">
+    <button id="designBtn" class="btn" style="display:inline; margin:5px">Design</button>
+    <button id="previewBtn" class="btn" style="display:inline; margin:5px">Preview</button>
+  </div>
+
+  <div id="container" style="margin:15px">
+    <div id='builder' style="display:block"></div>
+    <div id='preview' style="display:hidden"></div>
+  </div>
+</body>
+
+</html>
